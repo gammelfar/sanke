@@ -8,9 +8,48 @@
     <meta name="apple-mobile-web-app-capable" content="yes" /> 
 
     <script type="text/javascript">
-        setTimeout(function(){window.location = "http://sanker.dk/app/php/sync.php?DEV=1";},100);
+        function doesConnectionExist() {
+            var xhr = new XMLHttpRequest();
+            var file = "http://www.sanker.dk/app/ping.png";
+            var randomNum = Math.round(Math.random() * 10000);
+     
+            xhr.open('HEAD', file + "?rand=" + randomNum, false);
+     
+            try {
+                xhr.send();
+         
+                if (xhr.status >= 200 && xhr.status < 304) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        var iCnt = 0;
+        function startUp() {
+            if(doesConnectionExist()) {
+                window.location = "http://sanker.dk/app/php/sync.php?DEV=1";
+                setTimeout(function(){startUp();},30000);
+            } else {
+                iCnt++;
+                var f = document.getElementById("fail");
+                f.innerHTML = "<center><br><br>Kan ikke få forbindelse til internettet.<br>Denne app skal have adgang til internettet for at kunne starte op.<br><br><br></center>";
+                document.getElementById("check").innterHTML = "";
+                setTimeout(function(){document.getElementById("check").innerHTML="<center>Søger efter internet...<br>("+iCnt+" forsøg)</center>";startUp();},5000);
+            }
+        }
+
+        setTimeout(function(){startUp();},100);
     </script>
 </head>
 <body>
+<div id="fail">
+</div>
+<div id="check">
+</div>
+
 </body>
 </html>
