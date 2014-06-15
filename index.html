@@ -10,7 +10,7 @@
     <script type="text/javascript">
         function doesConnectionExist() {
             var xhr = new XMLHttpRequest();
-            var file = "http://www.sanker.dk/app/ping.png";
+            var file = "http://www.abeland.dk/services/pk/ping.png";
             var randomNum = Math.round(Math.random() * 10000);
      
             xhr.open('HEAD', file + "?rand=" + randomNum, false);
@@ -31,7 +31,7 @@
         var iCnt = 0;
         function startUp() {
             if(doesConnectionExist()) {
-                window.location = "http://sanker.dk/app/php/sync.php?DEV=1";
+                window.location = "http://www.abeland.dk/services/pk/sync.php?DEV=1";
                 setTimeout(function(){startUp();},30000);
             } else {
                 iCnt++;
